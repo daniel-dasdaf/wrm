@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runs - Running interactive map</title>
+    <link rel="stylesheet" href="./css/leaflet.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+
+    <script type="module" src="./js/firebase.js"></script>
+
+</head>
+<body>
+    <header class="header">
+        <h1 class="logo">WORLD RUNNING MAP</h1>
+
+        <div class="right-side">
+            <i class="material-icons" onclick="location.reload()">refresh</i>
+            <input type="text" id="checkstatus" placeholder="Check Status">
+            <h1 class="news">News</h1>
+            <h1 class="add-markup">Add Markup</h1>
+        </div>
+    </header>
+    
+    <main class="wrapper">
+       <div id="map"></div>
+
+       <div class="side-panel" id="news">
+            <h1>News</h1>
+
+            <div class="news__wrapper" id="news__wrapper">
+                <div class="new__run">
+                    <p class="run__status" data-value="Active">active</p>
+                    <h2 class="text">Daniel marathon</h2>
+                    <p class="text"> Distance : 42km</p>
+                    <p class="text">date: 14/10/2023</p>
+                    <p class="text" >url : algo</p>
+                </div>
+            </div>
+       </div>
+       <div class="side-panel hidden" id="add-markup">
+            <h1 class="title">Add markup</h1>
+            <form id="form" class="form" enctype="multipart/form-data">
+                <input type="text" name="event_name" id="event_name" placeholder="Insert event name" required>
+                <input type="file" name="event_logo" id="event_logo">
+                <select name="event_type" id="event_type" required>
+                    <option selected="selected" value="Marathon">Marathon</option>
+                    <option value="Half-Marathon">Half-Marathon</option>
+                    <option value="10K">10K</option>
+                    <option value="8K">8K</option>
+                </select>
+                <input type="date" name="event_date" id="event_date" required>
+                <input type="time" name="event_start_time" id="event_start_time" required>
+                <input type="text" name="event_location" id="event_location" placeholder="Event Location">
+                <input type="text" name="event_description" id="event_description" placeholder="Event Description">
+                <input type="url" name="event_url" id="event_url" placeholder="Link for event">
+                <input type="hidden" name="event_markup" id="event_markup" value="">
+                <input type="hidden" name="geographic_route" id="geographic_route" value="">
+                <input class="map__input" type="button" name="event_markup_btn" id="event_markup_btn" placeholder="Press me to markup" value="Click to place the marker">
+                <input type="submit" value="Submit" style="order: 7" id="event_submit">
+            </form>
+       </div>
+    </main>
+    <script src="./js/leaflet.js"></script>
+    <script src="./js/leaflet-measure.js"></script>
+    <script type="module" src="./js/app.js"></script>
+</body>
+</html>

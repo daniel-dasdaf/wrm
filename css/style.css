@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
+:root{
+    --fnt-primary : 'Ubuntu', sans-serif;
+    --fnt-size-title: 18px;
+}
+
+html{
+    font-family: var(--fnt-primary);
+}
+body{
+    position: relative;
+    box-sizing: border-box;
+}
+.hidden{
+    display: none;
+}
+/* HEADER */
+.header {
+    width: 100%;
+    min-height: 50px;
+    position: absolute;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.header .logo{
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: var(--fnt-size-title);
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    margin-left: 20px;
+}
+.header .right-side{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    margin-right: 20px;
+}
+.material-icons{
+    padding: 10px 10px;
+    border-radius: 100px;
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    cursor: pointer;
+}
+.right-side h1{
+    font-size: var(--fnt-size-title);
+    padding: 10px 20px;
+    border-radius: 100px;
+    background-color: white;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+}
+.right-side h1:last-child{
+    background-color: #f4a261;
+    color: white;
+}
+.right-side h1:last-child:hover{
+    background-color: #e76f51;
+    transition: background-color .5s;
+}
+.leaflet-top{
+    top: 10%;
+}
+#checkstatus{
+    border: none;
+    border-radius: 100px;
+    padding: 10px 20px;
+    -webkit-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+}
+#checkstatus:focus{
+    outline: none;
+    border: 2px solid #e76f51;
+}
+#map{
+    height: 100vh;
+    width: 100%;
+}
+.leaflet-touch .leaflet-bar{
+    margin-left: 20px;
+    border: none;
+}
+.leaflet-touch .leaflet-bar a:first-child{
+    margin-bottom: 5px;
+}
+.leaflet-touch .leaflet-bar a, .leaflet-touch .leaflet-bar a:first-child, .leaflet-touch .leaflet-bar a:last-child{
+    border: none;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+}
+.wrapper{
+    display: flex;
+    flex-direction: row;
+}
+
+/* SIDE PANEL */
+.side-panel{
+    min-width: 20vw;
+    z-index: 99;
+    max-height: 100vh - 50px;
+    position: absolute;
+    z-index: 999;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 12px -6px rgba(0,0,0,0.75);
+    border-radius: 10px;
+    padding: 10px 0;
+}
+
+/*form*/
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+.side-panel h1{
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+form input{
+    border: 1px solid grey;
+    border-radius: 50px;
+}
+
+/* news */
+.news__wrapper{
+    max-height: calc(100vh - 30vh);
+    min-width: 30vw;
+    overflow: scroll;
+    overflow-x: hidden;
+    position: relative;
+}
+#news__wrapper .new__run{
+    width: 100%;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+#news__wrapper .new__run:hover{
+    background-color:#f4a261;;
+    color: #fff;
+}
+.news__wrapper .new__run:not(:last-child){
+   margin-bottom: 20px;
+}
+.news__wrapper .new__run .text {
+    margin: 5px 0px;
+}
+.run__status {
+    position: absolute;
+    right: 10px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    color: white;
+    margin-top: 10px;
+}
+.new__run[data-status="Pending"]{
+    color: rgb(158, 158, 158);
+}
+.run__status[data-value= 'Active']{
+    background-color: green;
+}
+.run__status[data-value= 'Pending']{
+    background-color: orange;
+}
+.run__status[data-value= 'Denied']{
+    background-color: red;
+}
