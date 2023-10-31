@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="./css/style.css">
 
     <script type="module" src="./js/firebase.js"></script>
-
 </head>
 <body>
     <header class="header">
@@ -33,8 +32,18 @@
             <input type="text" id="checkstatus" placeholder="Check Status">
             <h1 class="news">News</h1>
             <h1 class="add-markup">Add Markup</h1>
+            <i class="login material-icons" id="login">login</i>
+            <i class="logout material-icons" id="logout" style="display:none">logout</i>
         </div>
     </header>
+
+    <div class="modal" id="login-modal">
+        <form id="login">
+            <input type="email" name="email" id="email">
+            <input type="password" name="password" id="password">
+            <input type="submit" value="submit" id="submit-login">
+        </form>
+    </div>
     
     <main class="wrapper">
        <div id="map"></div>

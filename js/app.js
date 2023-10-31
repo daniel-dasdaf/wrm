@@ -1,4 +1,4 @@
-import { getColl, publishRef } from './firebase.js';
+import { getColl, publishRef, loginUser, signOut, authUser} from './firebase.js';
 
 var map = L.map('map').setView([39.75, -8.033], 7);
 var isMapClickable = false;
@@ -74,9 +74,9 @@ var headerBtns = document.querySelectorAll('.right-side > *');
 
 headerBtns.forEach(key => {
     key.addEventListener('click', function(){
-        console.log(this.getAttribute('class'))
+        console.log(this.getAttribute('class').split(' ')[0])
 
-        switch(this.getAttribute('class')){
+        switch(this.getAttribute('class').split(' ')[0]){
             case 'add-markup':
                 document.getElementById('add-markup').classList.remove('hidden');
                 document.getElementById('news').classList.add('hidden')
@@ -84,6 +84,13 @@ headerBtns.forEach(key => {
             case 'news':
                 document.getElementById('news').classList.remove('hidden');
                 document.getElementById('add-markup').classList.add('hidden')
+            break;
+            case 'login':
+                document.getElementById('login-modal').style.display='grid';
+            break;
+            case 'logout':
+                signOut();
+                document.getElementById('logout').style.display='none';
             break;
         }
     })
@@ -184,5 +191,39 @@ form.addEventListener('submit', function(e){
         event_marker: JSON.stringify(markup__event_latlng)
     }
 
-    publishRef("runnings", data);
+    authUser()
+    .then((user) => {
+        if (user) {
+            console.log('User is signed in:', user);
+            publishRef("runnings", data);
+        } else {
+            console.log('User is not signed in.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error checking authentication:', error);
+    });
+})
+
+document.getElementById('submit-login').addEventListener('click', function(e){
+    e.preventDefault();
+    const email = document.getElementById('email').value;      
+    const password = document.getElementById('password').value;
+
+    loginUser(email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('User logged in:', user);
+        // Redirect to a protected route or update the UI fan   authenticated user.
+        })
+        .catch((error) => {
+        console.error('Login error:', error);
+        // Handle login errors, e.g., show an error message the user.
+    });
+})
+
+document.getElementById('login-modal').addEventListener('click', (e) => {
+    if(e.target.id){
+        document.getElementById('login-modal').style.display= 'none'
+    }
 })
