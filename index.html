@@ -29,11 +29,11 @@
 
         <div class="right-side">
             <i class="material-icons" onclick="location.reload()">refresh</i>
-            <input type="text" id="checkstatus" placeholder="Check Status">
             <h1 class="news">News</h1>
-            <h1 class="add-markup">Add Markup</h1>
-            <i class="login material-icons" id="login">login</i>
-            <i class="logout material-icons" id="logout" style="display:none">logout</i>
+            <h1 class="add-markup" id="register-event" style="display: none">Add event</h1>
+            <h1 class="my-events" id="my-events" style="display: none">My events</h1>
+            <i class="login material-icons" id="login" style="display: none">login</i>
+            <i class="logout material-icons" id="logout" style="display: none">logout</i>
         </div>
     </header>
 
@@ -43,6 +43,16 @@
             <input type="password" name="password" id="password">
             <input type="submit" value="submit" id="submit-login">
         </form>
+    </div>
+
+    <div class="modal my-events-modal" id="my-events-modal">
+        <div id="events">
+            <div class="event">
+                <h1>Title</h1>
+                <h2>Type</h2>
+                <h2>status</h2>
+            </div>
+        </div>
     </div>
     
     <main class="wrapper">

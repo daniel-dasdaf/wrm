@@ -1,6 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";  
-import { getFirestore, getDocs, collection, addDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged  } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";  
+import { getFirestore, getDocs, collection, addDoc, orderBy, query, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged  } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 
 //add your credentials from firebase project
 const firebaseConfig = {
@@ -17,6 +17,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth(app);
+
+let user__uid = null;
+
 //create your custom method
 export const getColl = async (coll, orderByField) => {
     const collectionRef = collection(db, coll);
@@ -34,7 +37,6 @@ export const loginUser = (email, password) => {
 };
 
 export const signOut = () => {
-  console.log('oi')
   return auth.signOut();
 };
 
@@ -54,13 +56,45 @@ export const authUser = () => {
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    user__uid = user.uid;
+
+    const usersRef = collection(db, "users");
+    const userQuery = query(usersRef, where('user_uid', '==', user.uid));
+  
+    getDocs(userQuery)
+    .then((querySnapshot) => {
+      if (querySnapshot.size === 0) {
+        console.log('No user found with the specified UID.');
+      } else {
+        querySnapshot.forEach((doc) => {
+          console.log('Found user:', doc.data().role);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error('Error searching for user:', error);
+    });
+
     console.log('está logado')
+    document.getElementById('my-events').style.display = 'block';
+    document.getElementById('register-event').style.display = 'block';
     document.getElementById('login').style.display = 'none';
     document.getElementById('logout').style.display = 'block';
     document.getElementById('login-modal').style.display = 'none';
   } else {
+    document.getElementById('my-events').style.display = 'none';
+    document.getElementById('register-event').style.display = 'none';
     document.getElementById('logout').style.display = 'none';
     document.getElementById('login').style.display = 'block';
     console.log('não está logado')
   }
 });
+
+
+//create your custom method
+export const getMyColls = async () => {
+  const runningsRef = collection(db, "runnings");
+  const runningQuery = query(runningsRef, where('event_creator_uid', '==', user__uid));
+  console.log(runningQuery)
+  return getDocs(runningQuery);
+};

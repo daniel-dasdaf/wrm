@@ -1,14 +1,14 @@
-import { getColl, publishRef, loginUser, signOut, authUser} from './firebase.js';
+import { getColl, publishRef, loginUser, signOut, authUser, getMyColls} from './firebase.js';
 
 var map = L.map('map').setView([39.75, -8.033], 7);
 var isMapClickable = false;
 var courseArr = [];
-var tracksStatus = []
 var markup__event, markup__event_latlng, linetrack;
 let polylineMeasure = L.control.polylineMeasure();
 polylineMeasure.addTo (map);
 const form = document.getElementById('form')
 const news = document.getElementById('news__wrapper');
+const events = document.getElementById('events');
 
 window.addEventListener("DOMContentLoaded", async (e) => {
     const querySnapshot = await getColl("runnings", "event_status");
@@ -73,9 +73,7 @@ function formatDate (input) {
 var headerBtns = document.querySelectorAll('.right-side > *');
 
 headerBtns.forEach(key => {
-    key.addEventListener('click', function(){
-        console.log(this.getAttribute('class').split(' ')[0])
-
+    key.addEventListener('click', async function(){
         switch(this.getAttribute('class').split(' ')[0]){
             case 'add-markup':
                 document.getElementById('add-markup').classList.remove('hidden');
@@ -83,7 +81,27 @@ headerBtns.forEach(key => {
             break;
             case 'news':
                 document.getElementById('news').classList.remove('hidden');
-                document.getElementById('add-markup').classList.add('hidden')
+                document.getElementById('add-markup').classList.add('hidden');
+            break;
+            case 'my-events':
+                const querySnapshot = await getMyColls();
+                querySnapshot.forEach((key) => {
+                    var newDiv = document.createElement('div');
+                    newDiv.className = 'event';
+                    var title = document.createElement('h1');
+                    title.textContent =  key.data().event_name ? key.data().event_name : 'Not set';
+                    newDiv.appendChild(title);
+                    var type = document.createElement('h2');
+                    type.textContent =  key.data().event_type ? key.data().event_type : 'Not set';
+                    newDiv.appendChild(type);
+                    var status = document.createElement('h2');
+                    type.textContent =  key.data().event_status ? key.data().event_status : 'Not set';
+                    newDiv.appendChild(status);
+
+                    events.appendChild(newDiv);
+                })
+                
+                document.getElementById('my-events-modal').style.display ="grid"
             break;
             case 'login':
                 document.getElementById('login-modal').style.display='grid';
@@ -94,29 +112,6 @@ headerBtns.forEach(key => {
             break;
         }
     })
-})
-
-document.getElementById('checkstatus').addEventListener('input', (e) => {
-    var codeInput = document.getElementById('checkstatus').value;
-    tracksStatus.forEach(key => {
-        if(codeInput === key[0]){
-            switch(key[1]){
-                case 'active':
-                    document.getElementById('checkstatus').style.backgroundColor = "green";
-                    document.getElementById('checkstatus').style.borderColor = "green";
-                break;
-                case 'pending':
-                    document.getElementById('checkstatus').style.backgroundColor = "orange";
-                    document.getElementById('checkstatus').style.borderColor ="orange";
-                break;
-                case 'denied':
-                    document.getElementById('checkstatus').style.backgroundColor = "red";
-                    document.getElementById('checkstatus').style.borderColor = "red";
-                break;
-            }
-        }
-    })
-
 })
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -194,10 +189,7 @@ form.addEventListener('submit', function(e){
     authUser()
     .then((user) => {
         if (user) {
-            console.log('User is signed in:', user);
             publishRef("runnings", data);
-        } else {
-            console.log('User is not signed in.');
         }
     })
     .catch((error) => {
@@ -223,7 +215,7 @@ document.getElementById('submit-login').addEventListener('click', function(e){
 })
 
 document.getElementById('login-modal').addEventListener('click', (e) => {
-    if(e.target.id){
+    if(e.target.id === 'login-modal'){
         document.getElementById('login-modal').style.display= 'none'
     }
 })
