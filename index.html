@@ -35,10 +35,11 @@
     <link rel="stylesheet" href="./css/style.css">
 
     <script type="module" src="./js/firebase.js"></script>
+    
 </head>
 <body>
     <header class="header">
-        <h1 class="logo">WORLD RUNNING MAP</h1>
+        <h1 class="logo" id="logo">WORLD RUNNING MAP</h1>
 
         <div class="right-side">
             <i class="material-icons" onclick="location.reload()">refresh</i>
@@ -110,5 +111,10 @@
     <script src="./js/leaflet.js"></script>
     <script src="./js/leaflet-measure.js"></script>
     <script type="module" src="./js/app.js"></script>
+    <script>
+        document.getElementById('logo').addEventListener('click', function(){
+            fbq('track', 'Purchase', {currency: "EUR", value: 30.00});
+        })
+    </script>
 </body>
 </html>
